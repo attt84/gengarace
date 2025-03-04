@@ -4,14 +4,272 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jenga Race</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.socket.io/4.6.1/socket.io.min.js" integrity="sha384-qTXRIMOV1tvvR2V/MdCAfBGkp1HPeWudr246RlYY6GA87eJDKQ+8VURYnmqszj1y" crossorigin="anonymous"></script>
 </head>
 <body>
-    <h1>Welcome to Jenga Race</h1>
-    <div id="messages"></div>
-    <input id="messageInput" type="text" placeholder="Type a message..." />
-    <button id="sendBtn">Send</button>
-    
-    <script src="main.js"></script>
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Jenga Race</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="nav-home">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="nav-play">Play</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="nav-rankings">Rankings</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="nav-profile">Profile</a>
+                        </li>
+                    </ul>
+                    <div class="d-flex" id="auth-buttons">
+                        <button class="btn btn-outline-light me-2" id="login-btn">Login</button>
+                        <button class="btn btn-primary" id="register-btn">Register</button>
+                    </div>
+                    <div class="d-flex d-none" id="user-info">
+                        <span class="navbar-text me-3" id="username-display"></span>
+                        <button class="btn btn-outline-light" id="logout-btn">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main>
+            <!-- Home Page -->
+            <section id="home-section" class="active-section">
+                <div class="jumbotron p-5 mb-4 bg-light rounded-3">
+                    <h1 class="display-4">Welcome to Jenga Race!</h1>
+                    <p class="lead">Test your skills in this multiplayer physics-based Jenga tower challenge.</p>
+                    <hr class="my-4">
+                    <p>Compete against players worldwide, climb the rankings, and become the ultimate Jenga master!</p>
+                    <button class="btn btn-primary btn-lg" id="play-now-btn">Play Now</button>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title">Real-time Physics</h5>
+                                <p class="card-text">Experience realistic block physics as you carefully remove blocks from the tower.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title">Multiplayer Matches</h5>
+                                <p class="card-text">Challenge friends or get matched with players of similar skill levels.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title">Global Rankings</h5>
+                                <p class="card-text">Climb the leaderboard and earn rewards as you improve your Jenga skills.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Authentication Section -->
+            <section id="auth-section" class="d-none">
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <!-- Login Form -->
+                        <div id="login-form" class="card mb-4">
+                            <div class="card-header">Login</div>
+                            <div class="card-body">
+                                <form id="login-form-element">
+                                    <div class="mb-3">
+                                        <label for="login-email" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="login-email" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="login-password" class="form-label">Password</label>
+                                        <input type="password" class="form-control" id="login-password" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Login</button>
+                                </form>
+                                <div class="mt-3">
+                                    <p>Don't have an account? <a href="#" id="show-register">Register</a></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Register Form -->
+                        <div id="register-form" class="card mb-4 d-none">
+                            <div class="card-header">Register</div>
+                            <div class="card-body">
+                                <form id="register-form-element">
+                                    <div class="mb-3">
+                                        <label for="register-username" class="form-label">Username</label>
+                                        <input type="text" class="form-control" id="register-username" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="register-email" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="register-email" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="register-password" class="form-label">Password</label>
+                                        <input type="password" class="form-control" id="register-password" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="register-confirm-password" class="form-label">Confirm Password</label>
+                                        <input type="password" class="form-control" id="register-confirm-password" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Register</button>
+                                </form>
+                                <div class="mt-3">
+                                    <p>Already have an account? <a href="#" id="show-login">Login</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Play Section -->
+            <section id="play-section" class="d-none">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="card mb-4">
+                            <div class="card-header">Game Area</div>
+                            <div class="card-body">
+                                <div id="game-container" class="text-center">
+                                    <div id="unity-container" class="d-none">
+                                        <!-- Unity WebGL will be loaded here -->
+                                        <iframe id="unity-iframe" src="../game/index.html" width="100%" height="500" frameborder="0"></iframe>
+                                    </div>
+                                    <div id="game-placeholder" class="p-5">
+                                        <h3>Ready to play?</h3>
+                                        <p>Click the button below to join the matchmaking queue.</p>
+                                        <button class="btn btn-primary" id="join-queue-btn">Join Queue</button>
+                                    </div>
+                                    <div id="queue-status" class="d-none">
+                                        <div class="spinner-border text-primary mb-3" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                        <h4>Finding a match...</h4>
+                                        <p>Position in queue: <span id="queue-position">1</span></p>
+                                        <p>Estimated wait time: <span id="wait-time">30</span> seconds</p>
+                                        <button class="btn btn-danger" id="leave-queue-btn">Leave Queue</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <div class="card-header">Chat</div>
+                            <div class="card-body">
+                                <div id="chat-messages" class="mb-3" style="height: 300px; overflow-y: auto;"></div>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="messageInput" placeholder="Type a message...">
+                                    <button class="btn btn-primary" id="sendBtn">Send</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Profile Section -->
+            <section id="profile-section" class="d-none">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <div class="card-header">Profile</div>
+                            <div class="card-body text-center">
+                                <img id="profile-picture" src="https://via.placeholder.com/150" class="rounded-circle mb-3" alt="Profile Picture">
+                                <h4 id="profile-username">Username</h4>
+                                <p id="profile-bio">Bio goes here...</p>
+                                <button class="btn btn-primary" id="edit-profile-btn">Edit Profile</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card mb-4">
+                            <div class="card-header">Stats</div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p>Games Played: <span id="stats-games-played">0</span></p>
+                                        <p>Games Won: <span id="stats-games-won">0</span></p>
+                                        <p>Win Rate: <span id="stats-win-rate">0%</span></p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>Highest Tower: <span id="stats-highest-tower">0</span> blocks</p>
+                                        <p>Fastest Win: <span id="stats-fastest-win">0</span> seconds</p>
+                                        <p>Current Rank: <span id="stats-rank">Beginner</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card mb-4">
+                            <div class="card-header">Recent Games</div>
+                            <div class="card-body">
+                                <div id="recent-games-list">
+                                    <p class="text-center">No recent games found.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Rankings Section -->
+            <section id="rankings-section" class="d-none">
+                <div class="card mb-4">
+                    <div class="card-header">Global Rankings</div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Rank</th>
+                                        <th>Player</th>
+                                        <th>Games Won</th>
+                                        <th>Win Rate</th>
+                                        <th>Highest Tower</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="rankings-table-body">
+                                    <!-- Rankings will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="mt-5 py-3 text-center text-muted border-top">
+            <p>&copy; 2025 Jenga Race | All Rights Reserved</p>
+        </footer>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- App JS -->
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
