@@ -1,99 +1,99 @@
-# Jenga Race Online Multiplayer Game
+# ジェンガレース オンラインマルチプレイヤーゲーム
 
-A real-time multiplayer physics-based Jenga game where players compete to remove blocks without toppling the tower.
+リアルタイムで複数人が遊べる物理演算ベースのジェンガゲームです。プレイヤー同士でブロックを抜き合い、タワーを倒さずに勝利を目指します。
 
-## Project Overview
+## プロジェクト概要
 
-Jenga Race is a full-stack web application that allows players to:
-- Create accounts and manage profiles
-- Join matchmaking queues to find opponents
-- Play real-time Jenga games with physics-based block manipulation
-- Chat with opponents during gameplay
-- Track statistics and climb the leaderboard
+Jenga Raceは以下の機能を持つフルスタックWebアプリケーションです：
+- アカウント作成・プロフィール管理
+- マッチメイキングキューによる対戦相手の検索
+- 物理演算によるリアルタイムジェンガ対戦
+- ゲーム中のチャット機能
+- 統計の記録とランキング機能
 
-## Technical Stack
+## 技術スタック
 
-### Backend
-- **Node.js** with Express for the server
-- **Socket.io** for real-time communication
-- **MongoDB** for data storage
-- **JWT** for authentication
-- **bcrypt** for password hashing
+### バックエンド
+- **Node.js** + Express（サーバーサイド）
+- **Socket.io**（リアルタイム通信）
+- **MongoDB**（データ保存）
+- **JWT**（認証）
+- **bcrypt**（パスワードハッシュ化）
 
-### Frontend
-- **Vanilla JavaScript** with modular architecture
-- **Bootstrap** for responsive UI
-- **Socket.io client** for real-time updates
-- **Unity WebGL** for the game client (placeholder implemented)
+### フロントエンド
+- **バニラJavaScript**（モジュラー構成）
+- **Bootstrap**（レスポンシブUI）
+- **Socket.ioクライアント**（リアルタイム更新）
+- **Unity WebGL**（ゲームクライアント／現在はプレースホルダー）
 
-## Features
+## 主な機能
 
-### User Management
-- User registration with email/password
-- Login/logout functionality
-- Profile creation and editing
-- JWT-based authentication
-- Password hashing with bcrypt
+### ユーザー管理
+- メールアドレス＋パスワード登録
+- ログイン／ログアウト
+- プロフィール作成・編集
+- JWT認証
+- bcryptによるパスワードハッシュ
 
-### Matchmaking System
-- Skill-based player matching
-- Queue management
-- Dynamic skill range expansion
-- Real-time match finding
+### マッチメイキング
+- 実力に基づいたマッチング
+- キュー管理
+- 実力範囲の動的拡大
+- リアルタイムでの対戦検索
 
-### Game Mechanics
-- Socket.io game room management
-- Turn-based gameplay
-- Block movement and removal
-- Game state tracking
-- Winner/loser determination
+### ゲームメカニクス
+- Socket.ioによる部屋管理
+- ターン制ゲーム進行
+- ブロックの移動・除去
+- ゲーム状態管理
+- 勝者／敗者の判定
 
-### Analytics
-- Game statistics tracking
-- Player performance metrics
-- Leaderboards
-- Usage analytics
+### 分析・ランキング
+- ゲーム統計の記録
+- プレイヤーパフォーマンス指標
+- リーダーボード
+- 利用状況分析
 
-## Project Structure
+## プロジェクト構成
 
 ```
 JengaRace/
-├── backend/                # Node.js server
-│   ├── middleware/         # Auth middleware
-│   ├── models/             # MongoDB schemas
-│   ├── routes/             # API endpoints
-│   └── server.js           # Main server file
-├── frontend/               # Web client
-│   ├── js/                 # JavaScript modules
-│   │   ├── api.js          # API service
-│   │   ├── auth.js         # Authentication service
-│   │   ├── game.js         # Game service
-│   │   ├── main.js         # Main entry point
-│   │   └── ui.js           # UI service
-│   ├── index.html          # Main HTML file
-│   └── styles.css          # CSS styles
-├── game/                   # Unity WebGL game client
-│   └── index.html          # Game placeholder
-├── .env                    # Environment variables
-└── README.md               # Project documentation
+├── backend/                # Node.jsサーバー
+│   ├── middleware/         # 認証ミドルウェア
+│   ├── models/             # MongoDBスキーマ
+│   ├── routes/             # APIエンドポイント
+│   └── server.js           # メインサーバーファイル
+├── frontend/               # Webクライアント
+│   ├── js/                 # JSモジュール
+│   │   ├── api.js          # APIサービス
+│   │   ├── auth.js         # 認証サービス
+│   │   ├── game.js         # ゲームサービス
+│   │   ├── main.js         # メインエントリポイント
+│   │   └── ui.js           # UIサービス
+│   ├── index.html          # メインHTML
+│   └── styles.css          # CSS
+├── game/                   # Unity WebGLゲームクライアント
+│   └── index.html          # プレースホルダー
+├── .env                    # 環境変数
+└── README.md               # プロジェクトドキュメント
 ```
 
-## Installation
+## インストール手順
 
-1. Clone the repository:
+1. リポジトリをクローン：
 ```bash
 git clone https://github.com/attt84/gengarace.git
 cd JengaRace
 ```
 
-2. Install dependencies:
+2. 依存パッケージをインストール：
 ```bash
 cd backend
 npm install
 ```
 
-3. Set up environment variables:
-Create a `.env` file in the root directory with the following:
+3. 環境変数を設定：
+プロジェクトのルート直下に`.env`ファイルを作成し、以下の内容を記載してください。
 ```
 PORT=3000
 MONGO_URI=mongodb://localhost:27017/jengarace
@@ -101,80 +101,72 @@ JWT_SECRET=jenga_race_secret_key_2025
 NODE_ENV=development
 ```
 
-4. Start the server:
+4. サーバーを起動：
 ```bash
 npm start
 ```
 
-5. Open the application in your browser:
+5. ブラウザでアプリケーションを開く：
 ```
 http://localhost:3000
 ```
 
-## Development
+## 開発情報
 
-### Backend API Endpoints
+### バックエンドAPIエンドポイント
 
-#### Authentication
-- `POST /api/users/register` - Register a new user
-- `POST /api/users/login` - Login and get JWT token
-- `GET /api/users/me` - Get current user profile
+#### 認証
+- `POST /api/users/register` - 新規ユーザー登録
+- `POST /api/users/login` - ログインしJWTトークン取得
+- `GET /api/users/me` - 現在のユーザープロフィール取得
 
-#### Game
-- `POST /api/game/create` - Create a new game
-- `POST /api/game/join` - Join an existing game
-- `POST /api/game/ready` - Set player ready status
-- `POST /api/game/move` - Make a move in the game
-- `POST /api/game/remove-block` - Remove a block from the tower
-- `POST /api/game/end` - End a game (tower collapsed)
+#### ゲーム
+- `POST /api/game/create` - 新規ゲーム作成
+- `POST /api/game/join` - 既存ゲームへ参加
+- `POST /api/game/ready` - プレイヤーの準備状態設定
+- `POST /api/game/move` - ゲーム内の行動
+- `POST /api/game/remove-block` - ブロックを抜く
+- `POST /api/game/end` - ゲーム終了（タワー崩壊）
 
-#### Matchmaking
-- `POST /api/matchmaking/join` - Join matchmaking queue
-- `POST /api/matchmaking/leave` - Leave matchmaking queue
-- `GET /api/matchmaking/status` - Get current matchmaking status
+#### マッチメイキング
+- `POST /api/matchmaking/join` - マッチメイキング参加
+- `POST /api/matchmaking/leave` - マッチメイキング離脱
+- `GET /api/matchmaking/status` - 現在のマッチメイキング状態取得
 
-#### Analytics
-- `GET /api/analytics/usage` - Get general usage analytics
-- `GET /api/analytics/games` - Get game-specific analytics
-- `GET /api/analytics/leaderboard` - Get leaderboard data
-- `GET /api/analytics/user-stats` - Get authenticated user's statistics
+#### 分析
+- `GET /api/analytics/usage` - 一般的な利用状況
+- `GET /api/analytics/games` - ゲーム別統計
+- `GET /api/analytics/leaderboard` - ランキングデータ
+- `GET /api/analytics/user-stats` - 認証ユーザーの統計
 
-### Socket.io Events
+### Socket.ioイベント
 
-#### Client to Server
-- `joinGame` - Join a game room
-- `moveBlock` - Move a block
-- `removeBlock` - Remove a block
-- `chatMessage` - Send a chat message
-- `leaveGame` - Leave a game
+#### クライアント→サーバー
+- `joinGame` - ゲーム部屋に参加
+- `moveBlock` - ブロック移動
+- `removeBlock` - ブロック除去
+- `chatMessage` - チャット送信
+- `leaveGame` - ゲーム離脱
 
-#### Server to Client
-- `playerJoined` - A player joined the game
-- `gameStarted` - Game has started
-- `blockMoved` - A block was moved
-- `blockRemoved` - A block was removed
-- `gameEnded` - Game has ended
-- `chatMessage` - New chat message
+#### サーバー→クライアント
+- `playerJoined` - プレイヤーが参加
+- `gameStarted` - ゲーム開始
+- `blockMoved` - ブロックが動いた
+- `blockRemoved` - ブロックが除去された
+- `gameEnded` - ゲーム終了
+- `chatMessage` - 新しいチャットメッセージ
 
-## Future Enhancements
+## 今後の拡張予定
 
-- Complete Unity WebGL game client integration
-- Implement comprehensive error handling
-- Add more advanced game physics
-- Develop comprehensive testing suite
-- Implement production deployment scripts
-- Add friend system and private games
-- Implement tournaments and special events
+- Unity WebGLゲームクライアントの完成
+- 包括的なエラーハンドリング
+- より高度なゲーム物理演算
+- テストスイートの拡充
+- 本番環境向けデプロイスクリプト
+- フレンド機能、プライベートゲーム
+- トーナメントやイベント機能
 
-## License
+## ライセンス
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+このプロジェクトはMITライセンスです。詳細はLICENSEファイルを参照してください。
 
-## Contributors
-
-- Initial development by [Your Name]
-
-## Acknowledgments
-
-- Inspired by the classic Jenga game
-- Built with modern web technologies
